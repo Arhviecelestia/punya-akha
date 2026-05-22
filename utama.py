@@ -1,6 +1,4 @@
-Untuk menambahkan metode pembayaran **QRIS** ke dalam nota manifestasi digital dan form pemesanan, kita hanya perlu memperbarui opsi pada komponen `st.radio` di dalam fungsi `order_dialog`, serta menyesuaikan format teks manifestasi yang dikirimkan ke WhatsApp agar sinkron.
-
-Berikut adalah **full code** terbaru yang sudah terintegrasi dengan opsi pembayaran QRIS:
+Berikut adalah **full code** lengkap yang sudah diperbarui. Di dalam kode ini, opsi pembayaran **QRIS** sudah terintegrasi penuh, posisi katalog tetap seimbang di tengah, tinggi kotak terkunci rapi, dan sistem pemanggilan gambar menggunakan fungsi asli Streamlit agar foto dijamin aman dan muncul tanpa kendala:
 
 ```python
 import os
@@ -205,7 +203,7 @@ def order_dialog(item):
         }
         aksesoris_terpilih = st.multiselect(t["aks_label"], t["aks_options"])
 
-        # Menambahkan QRIS ke dalam opsi pembayaran radio button
+        # Opsi QRIS diposisikan paling awal dan utama
         transaksi = st.radio(t["trans_label"], ["QRIS Instant Secure", "Bank Vault Transfer", "Digital Wallet", "Amex / Credit Card"], horizontal=True)
         alamat = st.text_area(t["alamat_label"], placeholder=t["alamat_placeholder"])
 
