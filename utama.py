@@ -43,45 +43,38 @@ st.markdown(
         margin-bottom: 30px;
     }
     
-    /* Efek Kartu Minimalis: Dipaksa Rata Tengah & Tinggi Dikunci (Seragam) */
-    .stCard {
+    /* Memaksa elemen kolom Streamlit agar kontennya berada di tengah (Center-Aligned) */
+    [data-testid="stColumn"] {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    /* Efek Kartu Minimalis: Tinggi Dikunci Seragam */
+    .premium-card {
         background-color: rgba(255, 255, 255, 0.85);
         border: 1px solid rgba(0, 0, 0, 0.08);
         border-radius: 12px;
         padding: 25px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
         
-        /* Flexbox magic untuk meratakan konten ke tengah secara vertikal & horizontal */
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
         
-        /* Mengunci tinggi kotak agar semua katalog seragam */
-        height: 620px;
-        justify-content: space-between; /* Menjaga tombol tetap di paling bawah kotak */
-    }
-    
-    /* Memastikan gambar produk proporsional di dalam kotak */
-    .stCard img {
-        max-height: 220px;
-        object-fit: contain;
-        margin-bottom: 15px;
-    }
-
-    .card-content {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        /* Mengunci tinggi kotak agar semua katalog seragam sempurna */
+        height: 380px; 
+        justify-content: space-between;
         width: 100%;
+        margin-top: 15px;
     }
     
     /* Tombol Blackout Sleek Centered */
     .stButton>button {
         width: 90% !important;
-        margin: 0 auto !important;
+        margin: 15px auto 0 auto !important;
         display: block !important;
         border-radius: 4px !important;
         background-color: #000000 !important;
@@ -132,7 +125,7 @@ txt = {
         "err_input": "⚠️ Bidang Nama dan Destinasi wajib diisi untuk proses alokasi.",
         "success_msg": "Alokasi harga berhasil dikalkulasi secara presisi.",
         "wa_btn": "💬 Teruskan Manifest ke Konsultan WhatsApp",
-        "foto_missing": "📸 [File gambar '{}' belum tersemat di direktori utama]",
+        "foto_missing": "📸 [File gambar '{}' tidak ditemukan]",
         "file_missing": "Sistem Database 'data_sepatu.csv' gagal dijangkau.",
         "aks_options": [
             "Tanpa Tambahan",
@@ -161,7 +154,7 @@ txt = {
         "err_input": "⚠️ Name and Destination fields are mandatory for unit reservation.",
         "success_msg": "Allocation price successfully verified.",
         "wa_btn": "💬 Route Manifest to WhatsApp Consultant",
-        "foto_missing": "📸 [Image file '{}' is missing from the core root]",
+        "foto_missing": "📸 [Image file '{}' is missing]",
         "file_missing": "Database system 'data_sepatu.csv' could not be reached.",
         "aks_options": [
             "No Add-ons",
@@ -288,24 +281,29 @@ try:
 
             for idx, row in data_per_brand.iterrows():
                 with cols[idx % 3]:
-                    # Implementasi murni HTML Div untuk menjamin presisi susunan teks tengah & ketinggian seragam
-                    desc = row["deskripsi_id"] if bahasa == "Indonesia" else row["deskripsi_en"]
                     
+                    # 1. Gambar dirender menggunakan st.image (Fungsi Asli Streamlit agar PASTI MUNCUL)
+                    if os.path.exists(str(row["foto"])):
+                        st.image(row["foto"], use_container_width=True)
+                    else:
+                        st.warning(t["foto_missing"].format(row['foto']))
+                    
+                    # 2. Teks nama, harga, dan deskripsi dibungkus HTML dengan tinggi dikunci (380px) agar seragam
+                    desc = row["deskripsi_id"] if bahasa == "Indonesia" else row["deskripsi_en"]
                     st.markdown(
                         f"""
-                        <div class="stCard">
-                            <img src="{row['foto']}" style="width:100%;">
-                            <div class="card-content">
-                                <h4 style="margin: 10px 0; font-weight:400; font-size:1.25rem;">{row['nama']}</h4>
+                        <div class="premium-card">
+                            <div style="width: 100%;">
+                                <h4 style="margin: 0 0 10px 0; font-weight:400; font-size:1.25rem; color:#111;">{row['nama']}</h4>
                                 <h3 style="color:#111; margin: 5px 0 15px 0;"><b>Rp {row['harga']:,}</b></h3>
-                                <p style="color:#666; font-size:0.9rem; line-height:1.4; padding:0 10px; margin-bottom:20px;">{desc}</p>
+                                <p style="color:#666; font-size:0.9rem; line-height:1.5; padding:0 5px;">{desc}</p>
                             </div>
                         </div>
                         """, 
                         unsafe_allow_html=True
                     )
                     
-                    # Meletakkan tombol Streamlit tepat di bawah komponen HTML agar fungsi trigger pop-up tetap aktif
+                    # 3. Tombol Order diletakkan paling bawah
                     if st.button(t["order_btn"], key=f"btn_{brand}_{idx}"):
                         order_dialog(row)
 
