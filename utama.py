@@ -4,35 +4,79 @@ import streamlit as st
 import urllib.parse
 
 # ==========================================
-# 1. KONFIGURASI HALAMAN & BACKGROUND MEWAH
+# 1. KONFIGURASI HALAMAN & VISUAL PREMIUM VIBES
 # ==========================================
 st.set_page_config(
-    page_title="Premium Sneaker Vault", layout="wide", initial_sidebar_state="collapsed"
+    page_title="The Vault | Premium Sneakers", layout="wide", initial_sidebar_state="collapsed"
 )
 
-# Kustomisasi CSS untuk background gradasi putih-abu-abu dan style kartu
+# Kustomisasi CSS Tingkat Lanjut untuk Estetika Butik Mewah
 st.markdown(
     """
     <style>
-    /* Background Utama Gradasi */
+    /* Background Angled Gradient: Kiri Atas Putih, Kanan Bawah Abu-Abu */
     .stApp {
-        background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 50%, #E2E2E5 100%);
+        background: linear-gradient(135deg, #FFFFFF 30%, #ECECEC 70%, #C8C8CC 100%);
     }
     
-    /* Mempercantik tombol bawaan Streamlit */
+    /* Header Typo ala Luxury Brand */
+    .luxury-header {
+        font-family: 'Playfair Display', 'Didot', 'Georgia', serif;
+        font-size: 3.2rem;
+        font-weight: 300;
+        letter-spacing: 6px;
+        color: #111111;
+        text-align: center;
+        margin-bottom: 0px;
+        padding-top: 20px;
+    }
+    
+    .luxury-subtitle {
+        font-family: 'Montserrat', 'Helvetica Neue', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 400;
+        letter-spacing: 4px;
+        color: #666666;
+        text-align: center;
+        text-transform: uppercase;
+        margin-top: 5px;
+        margin-bottom: 30px;
+    }
+    
+    /* Sentralisasi Grid Produk & Efek Kartu Minimalis */
+    div[data-testid="stVVerticalBlock"] > div {
+        text-align: center;
+    }
+    
+    .stCard {
+        background-color: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        border-radius: 12px !important;
+        padding: 25px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        transition: all 0.4s ease-in-out;
+    }
+    
+    /* Tombol Blackout Sleek */
     .stButton>button {
-        width: 100%;
-        border-radius: 8px;
-        background-color: #111111;
-        color: white;
-        font-weight: bold;
-        transition: all 0.3s ease;
-        border: 1px solid #111111;
+        width: 80% !important;
+        margin: 0 auto !important;
+        display: block !important;
+        border-radius: 4px !important;
+        background-color: #000000 !important;
+        color: #FFFFFF !important;
+        font-size: 0.85rem !important;
+        font-weight: 500 !important;
+        letter-spacing: 2px !important;
+        border: 1px solid #000000 !important;
+        padding: 10px 0px !important;
+        transition: all 0.3s ease !important;
     }
     .stButton>button:hover {
-        background-color: #FFFFFF;
-        color: #111111;
-        border-color: #111111;
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
+        border-color: #000000 !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
     </style>
     """,
@@ -40,112 +84,82 @@ st.markdown(
 )
 
 # ==========================================
-# 2. PENGATURAN MULTI-BAHASA (DICTIONARY)
+# 2. PENGATURAN MULTI-BAHASA & DICTIONARY
 # ==========================================
-# Pilihan bahasa di pojok kanan atas halaman
-col_header, col_lang = st.columns([6, 1])
+col_blank, col_lang = st.columns([6, 1])
 with col_lang:
     bahasa = st.selectbox("🌐 Language", ["Indonesia", "English"], index=0)
 
-# Kamus teks terjemahan
 txt = {
     "Indonesia": {
-        "sub_title": "Koleksi Mewah & Keaslian Terjamin",
-        "order_btn": "PESAN SEKARANG",
-        "pop_title": "📦 Formulir Pemesanan Eksklusif",
-        "harga_satuan": "Harga Satuan:",
-        "biodata": "📝 Biodata Pembeli",
+        "sub_title": "Kurasi Siluet Legendaris & Autentisitas Mutlak",
+        "search_holder": "Cari koleksi siluet eksklusif Anda di sini...",
+        "order_btn": "REQUEST ACQUISITION",
+        "pop_title": "📦 Private Order Manifest",
+        "harga_satuan": "Nilai Investasi:",
+        "biodata": "📝 Lembar Identitas Klien",
         "nama_label": "Nama Lengkap",
-        "nama_placeholder": "Masukkan nama Anda",
+        "nama_placeholder": "Nama sesuai identitas resmi",
         "size_label": "Pilih Ukuran Sepatu (EU)",
-        "aks_label": "Aksesoris Tambahan",
-        "trans_label": "Metode Transaksi",
-        "alamat_label": "Alamat Pengiriman Lengkap",
-        "alamat_placeholder": "Nama jalan, Nomor rumah, RT/RW, Kecamatan, Kota",
-        "qty_label": "Jumlah Pasang Sepatu:",
-        "total_label": "✨ Total Pembayaran Anda:",
-        "submit_btn": "KONFIRMASI PESANAN SEKARANG",
-        "err_input": "⚠️ Mohon lengkapi Nama dan Alamat Pengiriman Anda terlebih dahulu!",
-        "success_msg": "Pesanan Anda berhasil dihitung!",
-        "wa_btn": "💬 Kirim Rincian Nota via WhatsApp",
-        "foto_missing": "📸 [Tempatkan file gambar '{}' di folder aplikasi]",
-        "file_missing": "Gagal memuat! File 'data_sepatu.csv' tidak ditemukan.",
+        "aks_label": "Komplemen Tambahan",
+        "trans_label": "Metode Konsinyasi",
+        "alamat_label": "Destinasi Pengiriman",
+        "alamat_placeholder": "Alamat domisili lengkap pengiriman boks",
+        "qty_label": "Alokasi Kuantitas:",
+        "total_label": "✨ Total Valuasi Transaksi:",
+        "submit_btn": "AMANKAN UNIT SEKARANG",
+        "err_input": "⚠️ Bidang Nama dan Destinasi wajib diisi untuk proses alokasi.",
+        "success_msg": "Alokasi harga berhasil dikalkulasi secara presisi.",
+        "wa_btn": "💬 Teruskan Manifest ke Konsultan WhatsApp",
+        "foto_missing": "📸 [File gambar '{}' belum tersemat di direktori utama]",
+        "file_missing": "Sistem Database 'data_sepatu.csv' gagal dijangkau.",
         "aks_options": [
-            "Tanpa Aksesoris",
-            "Kaus Kaki Premium (+Rp 150.000)",
-            "Premium Shoe Cleaner Kit (+Rp 250.000)",
-            "Boks Transparan Akrilik (+Rp 350.000)"
+            "Tanpa Tambahan",
+            "Kaus Kaki Katun Premium (+Rp 150.000)",
+            "Premium Shoe Care Kit (+Rp 250.000)",
+            "Etalase Transparan Akrilik (+Rp 350.000)"
         ]
     },
     "English": {
-        "sub_title": "Luxury Collection & Guaranteed Authenticity",
-        "order_btn": "ORDER NOW",
-        "pop_title": "📦 Exclusive Order Form",
-        "harga_satuan": "Unit Price:",
-        "biodata": "📝 Buyer Information",
+        "sub_title": "Curated Legendary Silhouettes & Absolute Authenticity",
+        "search_holder": "Search your exclusive silhouette here...",
+        "order_btn": "REQUEST ACQUISITION",
+        "pop_title": "📦 Private Order Manifest",
+        "harga_satuan": "Investment Value:",
+        "biodata": "📝 Client Identity Manifest",
         "nama_label": "Full Name",
-        "nama_placeholder": "Enter your full name",
+        "nama_placeholder": "Legal name for verification",
         "size_label": "Select Shoe Size (EU)",
-        "aks_label": "Additional Accessories",
-        "trans_label": "Transaction Method",
-        "alamat_label": "Full Delivery Address",
-        "alamat_placeholder": "Street name, House number, District, City, Zip Code",
-        "qty_label": "Pairs of Shoes Quantity:",
-        "total_label": "✨ Your Total Payment:",
-        "submit_btn": "CONFIRM ORDER NOW",
-        "err_input": "⚠️ Please complete your Name and Shipping Address first!",
-        "success_msg": "Your order has been successfully calculated!",
-        "wa_btn": "💬 Send Order Details via WhatsApp",
-        "foto_missing": "📸 [Place the image file '{}' in the app folder]",
-        "file_missing": "Failed to load! File 'data_sepatu.csv' not found.",
+        "aks_label": "Complimentary Add-ons",
+        "trans_label": "Consignment Method",
+        "alamat_label": "Shipping Destination",
+        "alamat_placeholder": "Complete residential address for vault delivery",
+        "qty_label": "Quantity Allocation:",
+        "total_label": "✨ Total Transaction Valuation:",
+        "submit_btn": "SECURE ALLOCATION NOW",
+        "err_input": "⚠️ Name and Destination fields are mandatory for unit reservation.",
+        "success_msg": "Allocation price successfully verified.",
+        "wa_btn": "💬 Route Manifest to WhatsApp Consultant",
+        "foto_missing": "📸 [Image file '{}' is missing from the core root]",
+        "file_missing": "Database system 'data_sepatu.csv' could not be reached.",
         "aks_options": [
-            "No Accessories",
-            "Premium Socks (+Rp 150,000)",
-            "Premium Shoe Cleaner Kit (+Rp 250,000)",
-            "Acrylic Transparent Box (+Rp 350,000)"
+            "No Add-ons",
+            "Premium Cotton Socks (+Rp 150,000)",
+            "Premium Shoe Care Kit (+Rp 250,000)",
+            "Acrylic Exhibition Vault (+Rp 350,000)"
         ]
     }
 }
 
-# Menyimpan preferensi bahasa yang dipilih pengguna ke variabel lokal
 t = txt[bahasa]
-
-# ==========================================
-# 3. AUTO-GENERATE DATASET (CSV)
-# ==========================================
 FILE_DATA = "data_sepatu.csv"
 
-if not os.path.exists(FILE_DATA):
-    data_awal = {
-        "brand": ["Nike", "Nike", "Adidas"],
-        "nama": [
-            'Nike SB Dunk Low x Travis Scott "Cactus Jack"',
-            "Nike Air Jordan 1 x Dior",
-            'Adidas Samba "Black"',
-        ],
-        "harga": [35000000, 150000000, 2200000],
-        "deskripsi_id": [
-            "Dibuat dengan material suede premium, panel kanvas bermotif paisley yang bisa dikelupas, serta aksen flannel tartan yang ikonik.",
-            "Diproduksi langsung di Italia menggunakan kulit lembu asli (Calfskin) tertinggi dengan motif monogram Oblique khas Dior pada logo Swoosh.",
-            "Siluet klasik legendaris berbahan full-grain leather hitam dengan suede T-toe overlay, serta sol karet (gum sole) yang sangat nyaman.",
-        ],
-        "deskripsi_en": [
-            "Crafted with premium suede materials, tear-away paisley canvas panels, and iconic flannel tartan accents signature to Travis Scott.",
-            "Manufactured directly in Italy using the highest quality calfskin leather with Dior's signature Oblique monogram on the Swoosh.",
-            "The legendary classic silhouette featuring black full-grain leather, suede T-toe overlay, and a comfortable gum sole.",
-        ],
-        "foto": ["travis.jpg", "dior.jpg", "samba.jpg"],
-    }
-    df_buat = pd.DataFrame(data_awal)
-    df_buat.to_csv(FILE_DATA, index=False)
-
-
 # ==========================================
-# 4. FUNGSI POP-UP CHECKOUT (ANIMATED DIALOG)
+# 3. FUNGSI POP-UP CHECKOUT (ANIMATED DIALOG)
 # ==========================================
 @st.dialog(t["pop_title"])
 def order_dialog(item):
-    st.markdown(f"### {item['nama']}")
+    st.markdown(f"<h3 style='text-align:center;'>{item['nama']}</h3>", unsafe_allow_html=True)
     st.divider()
 
     col_visual, col_form = st.columns([1, 1.2])
@@ -156,19 +170,14 @@ def order_dialog(item):
         else:
             st.info(t["foto_missing"].format(item['foto']))
 
-        st.markdown(t["harga_satuan"])
-        st.markdown(f"## **Rp {item['harga']:,}**")
+        st.markdown(f"<p style='text-align:center; color:#666; margin-bottom:0px;'>{t['harga_satuan']}</p>", unsafe_allow_html=True)
+        st.markdown(f"<h2 style='text-align:center; color:#111; margin-top:0px;'><b>Rp {item['harga']:,}</b></h2>", unsafe_allow_html=True)
 
     with col_form:
         st.markdown(f"##### {t['biodata']}")
         nama = st.text_input(t["nama_label"], placeholder=t["nama_placeholder"])
-        size = st.selectbox(
-            t["size_label"],
-            ["39", "40", "41", "42", "43", "44", "45"],
-            index=2,
-        )
+        size = st.selectbox(t["size_label"], ["39", "40", "41", "42", "43", "44", "45"], index=2)
 
-        # Map opsi aksesoris ke nilai harga matematika
         aks_mapping = {
             t["aks_options"][0]: 0,
             t["aks_options"][1]: 150000,
@@ -177,18 +186,12 @@ def order_dialog(item):
         }
         aksesoris_terpilih = st.multiselect(t["aks_label"], t["aks_options"])
 
-        transaksi = st.radio(
-            t["trans_label"],
-            ["Bank Transfer", "E-Wallet", "Credit Card"],
-            horizontal=True,
-        )
+        transaksi = st.radio(t["trans_label"], ["Bank Vault Transfer", "Digital Wallet", "Amex / Credit Card"], horizontal=True)
         alamat = st.text_area(t["alamat_label"], placeholder=t["alamat_placeholder"])
 
     st.divider()
 
-    # ==========================================
-    # KANAN: TOMBOL + / -  &  KIRI: TOTAL HARGA
-    # ==========================================
+    # REAL-TIME CALCULATOR QUANTITY BUTTONS (+ / -)
     bottom_col1, bottom_col2 = st.columns([1.5, 1])
 
     with bottom_col2:
@@ -202,92 +205,102 @@ def order_dialog(item):
 
     with bottom_col1:
         st.write(t["total_label"])
-        st.markdown(f"# **Rp {total_bayar:,}**")
+        st.markdown(f"## **Rp {total_bayar:,}**")
 
     if st.button(t["submit_btn"], type="primary"):
         if not nama or not alamat:
             st.error(t["err_input"])
         else:
-            # Teks WhatsApp otomatis adaptif sesuai bahasa terpilih
             bahasa_nota = "ID" if bahasa == "Indonesia" else "EN"
             pesan_wa = (
-                f"New Order Details ({bahasa_nota}):\n\n"
-                f"- *Item:* {item['nama']}\n"
-                f"- *Size:* {size}\n"
-                f"- *Quantity:* {jumlah_pasang} pair(s)\n"
-                f"- *Accessories:* {', '.join(aksesoris_terpilih) if aksesoris_terpilih else '-'}\n"
-                f"- *Total Payment:* Rp {total_bayar:,}\n\n"
-                f"*Customer Info:*\n"
-                f"- *Name:* {nama}\n"
-                f"- *Payment:* {transaksi}\n"
-                f"- *Address:* {alamat}"
+                f"THE VAULT - RESERVATION MANIFEST ({bahasa_nota}):\n\n"
+                f"- *Item Selection:* {item['nama']}\n"
+                f"- *Size Assigned:* EU {size}\n"
+                f"- *Quantity Allocated:* {jumlah_pasang} pair(s)\n"
+                f"- *Complements:* {', '.join(aksesoris_terpilih) if aksesoris_terpilih else '-'}\n"
+                f"- *Final Valuation:* Rp {total_bayar:,}\n\n"
+                f"*Client Dossier:*\n"
+                f"- *Full Name:* {nama}\n"
+                f"- *Settlement:* {transaksi}\n"
+                f"- *Destination:* {alamat}"
             )
 
             pesan_encoded = urllib.parse.quote(pesan_wa)
-            nomor_admin = "6285725744807"  # Taruh nomor WA Anda di sini
+            nomor_admin = "6281234567890"  
             link_final = f"https://wa.me/{nomor_admin}?text={pesan_encoded}"
 
             st.success(f"✨ {t['success_msg']}")
             st.balloons()
-
             st.link_button(t["wa_btn"], link_final, use_container_width=True)
 
 
 # ==========================================
-# 5. HALAMAN UTAMA KATALOG (MAIN PAGE)
+# 4. HALAMAN UTAMA KATALOG (MAIN PAGE)
 # ==========================================
-with col_header:
-    st.markdown(
-        "<h1 style='color: #111111; font-family: sans-serif; margin-bottom:0px;'>👟 PREMIUM SNEAKER VAULT</h1>",
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        f"<p style='color: #666666; font-style: italic; margin-top:0px;'>{t['sub_title']}</p>",
-        unsafe_allow_html=True,
-    )
+st.markdown(f'<div class="luxury-header">THE VAULT</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="luxury-subtitle">{t["sub_title"]}</div>', unsafe_allow_html=True)
+
+# LUXURY MINIMALIST SEARCH BAR
+col_search_space, col_search_box, col_search_space2 = st.columns([1, 2, 1])
+with col_search_box:
+    search_query = st.text_input("Search Collection", placeholder=t["search_holder"], label_visibility="collapsed")
+
+st.write("")
 st.divider()
 
 try:
     if os.path.exists(FILE_DATA):
         df = pd.read_csv(FILE_DATA)
-        daftar_brand = df["brand"].unique()
+        
+        # Logika Filter Berdasarkan Kolom Search
+        if search_query:
+            df = df[df['nama'].str.contains(search_query, case=False) | 
+                    df['brand'].str.contains(search_query, case=False)]
+            
+        df_brands = df["brand"].unique()
 
-        for brand in daftar_brand:
-            st.markdown(f"## **{brand.upper()} EDITION**")
+        for brand in df_brands:
+            # Memusatkan Nama Brand Edition
+            st.markdown(f"<h3 style='text-align: center; letter-spacing: 4px; color:#222;'>— {brand.upper()} EDITION —</h3>", unsafe_allow_html=True)
+            st.write("")
+            
             data_per_brand = df[df["brand"] == brand].reset_index(drop=True)
-
             cols = st.columns(3)
 
             for idx, row in data_per_brand.iterrows():
                 with cols[idx % 3]:
-                    with st.container(border=True):
+                    # Memasukkan konten ke dalam container custom styled
+                    with st.container(border=False):
+                        st.markdown('<div class="stCard">', unsafe_allow_html=True)
+                        
                         if os.path.exists(str(row["foto"])):
                             st.image(row["foto"], use_container_width=True)
                         else:
                             st.warning(t["foto_missing"].format(row['foto']))
 
-                        st.subheader(row["nama"])
-                        st.markdown(f"### **Rp {row['harga']:,}**")
+                        # Semua teks dipaksa rata tengah secara simetris
+                        st.markdown(f"<h4 style='margin-top:15px; font-weight:400;'>{row['nama']}</h4>", unsafe_allow_html=True)
+                        st.markdown(f"<h3 style='color:#111; margin-bottom:5px;'><b>Rp {row['harga']:,}</b></h3>", unsafe_allow_html=True)
                         
-                        # Menampilkan deskripsi berdasarkan pilihan bahasa
-                        if bahasa == "Indonesia":
-                            st.write(row["deskripsi_id"])
-                        else:
-                            st.write(row["deskripsi_en"])
-                            
-                        st.write("")  # Spacer
-
+                        desc = row["deskripsi_id"] if bahasa == "Indonesia" else row["deskripsi_en"]
+                        st.markdown(f"<p style='color:#666; font-size:0.9rem; min-height:80px; padding:0 10px;'>{desc}</p>", unsafe_allow_html=True)
+                        
                         if st.button(t["order_btn"], key=f"btn_{brand}_{idx}"):
                             order_dialog(row)
+                            
+                        st.markdown('</div>', unsafe_allow_html=True)
 
             st.write("")
+            st.write("")
             st.divider()
+            
+        if df.empty:
+            st.markdown("<p style='text-align:center; color:#888;'>No exclusive silhouettes matched your search criteria.</p>", unsafe_allow_html=True)
     else:
         st.error(t["file_missing"])
 
 except Exception as e:
-    st.error(f"System Error: {e}")
+    st.error(f"System Matrix Error: {e}")
 
 st.write("")
-st.caption("© 2026 Vault Premium Sneaker Store - Sleek & Elegant Dual-Language Design")
-st.caption("made by Razkha Raditya Haryadi")
+st.markdown("<p style='text-align:center; color:#999; font-size:0.8rem; letter-spacing:2px;'>© 2026 THE VAULT ATELIER — SLEEK & CENTRIC ARCHITECTURE</p>", unsafe_allow_html=True)
