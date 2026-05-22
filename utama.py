@@ -240,7 +240,7 @@ def order_dialog(item):
             )
 
             pesan_encoded = urllib.parse.quote(pesan_wa)
-            nomor_admin = "6281234567890"  
+            nomor_admin = "6285725744807"  
             link_final = f"https://wa.me/{nomor_admin}?text={pesan_encoded}"
 
             st.success(f"✨ {t['success_msg']}")
