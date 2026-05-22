@@ -10,7 +10,7 @@ st.set_page_config(
     page_title="The Vault | Premium Sneakers", layout="wide", initial_sidebar_state="collapsed"
 )
 
-# Kustomisasi CSS Tingkat Lanjut untuk Estetika Butik Mewah & Tinggi Seragam
+# Kustomisasi CSS Tingkat Lanjut untuk Estetika Butik Mewah & Ketinggian Seragam
 st.markdown(
     """
     <style>
@@ -288,14 +288,13 @@ try:
 
             for idx, row in data_per_brand.iterrows():
                 with cols[idx % 3]:
-                    # Implementasi murni HTML Div untuk menjamin presisi susunan teks tengah & tinggi seragam
-                    foto_render = f'<img src="{row["foto"]}" style="width:100%;">' if os.path.exists(str(row["foto"])) else f'<p style="color:red;">{t["foto_missing"].format(row["foto"])}</p>'
+                    # Implementasi murni HTML Div untuk menjamin presisi susunan teks tengah & ketinggian seragam
                     desc = row["deskripsi_id"] if bahasa == "Indonesia" else row["deskripsi_en"]
                     
                     st.markdown(
                         f"""
                         <div class="stCard">
-                            {foto_render}
+                            <img src="{row['foto']}" style="width:100%;">
                             <div class="card-content">
                                 <h4 style="margin: 10px 0; font-weight:400; font-size:1.25rem;">{row['nama']}</h4>
                                 <h3 style="color:#111; margin: 5px 0 15px 0;"><b>Rp {row['harga']:,}</b></h3>
