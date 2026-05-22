@@ -1,6 +1,3 @@
-Berikut adalah **full code** lengkap yang sudah diperbarui. Di dalam kode ini, opsi pembayaran **QRIS** sudah terintegrasi penuh, posisi katalog tetap seimbang di tengah, tinggi kotak terkunci rapi, dan sistem pemanggilan gambar menggunakan fungsi asli Streamlit agar foto dijamin aman dan muncul tanpa kendala:
-
-```python
 import os
 import pandas as pd
 import streamlit as st
