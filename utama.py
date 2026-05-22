@@ -322,5 +322,3 @@ except Exception as e:
 
 st.write("")
 st.markdown("<p style='text-align:center; color:#999; font-size:0.8rem; letter-spacing:2px;'>© 2026 THE VAULT ATELIER — SLEEK & CENTRIC ARCHITECTURE</p>", unsafe_allow_html=True)
-
-```
