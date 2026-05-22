@@ -1,3 +1,8 @@
+Untuk menambahkan metode pembayaran **QRIS** ke dalam nota manifestasi digital dan form pemesanan, kita hanya perlu memperbarui opsi pada komponen `st.radio` di dalam fungsi `order_dialog`, serta menyesuaikan format teks manifestasi yang dikirimkan ke WhatsApp agar sinkron.
+
+Berikut adalah **full code** terbaru yang sudah terintegrasi dengan opsi pembayaran QRIS:
+
+```python
 import os
 import pandas as pd
 import streamlit as st
@@ -116,7 +121,7 @@ txt = {
         "nama_placeholder": "Nama sesuai identitas resmi",
         "size_label": "Pilih Ukuran Sepatu (EU)",
         "aks_label": "Komplemen Tambahan",
-        "trans_label": "Metode Konsinyasi",
+        "trans_label": "Metode Konsinyasi / Pembayaran",
         "alamat_label": "Destinasi Pengiriman",
         "alamat_placeholder": "Alamat domisili lengkap pengiriman boks",
         "qty_label": "Alokasi Kuantitas:",
@@ -145,7 +150,7 @@ txt = {
         "nama_placeholder": "Legal name for verification",
         "size_label": "Select Shoe Size (EU)",
         "aks_label": "Complimentary Add-ons",
-        "trans_label": "Consignment Method",
+        "trans_label": "Consignment / Payment Method",
         "alamat_label": "Shipping Destination",
         "alamat_placeholder": "Complete residential address for vault delivery",
         "qty_label": "Quantity Allocation:",
@@ -200,7 +205,8 @@ def order_dialog(item):
         }
         aksesoris_terpilih = st.multiselect(t["aks_label"], t["aks_options"])
 
-        transaksi = st.radio(t["trans_label"], ["Bank Vault Transfer", "Digital Wallet", "Amex / Credit Card"], horizontal=True)
+        # Menambahkan QRIS ke dalam opsi pembayaran radio button
+        transaksi = st.radio(t["trans_label"], ["QRIS Instant Secure", "Bank Vault Transfer", "Digital Wallet", "Amex / Credit Card"], horizontal=True)
         alamat = st.text_area(t["alamat_label"], placeholder=t["alamat_placeholder"])
 
     st.divider()
@@ -321,3 +327,5 @@ except Exception as e:
 
 st.write("")
 st.markdown("<p style='text-align:center; color:#999; font-size:0.8rem; letter-spacing:2px;'>© 2026 THE VAULT ATELIER — SLEEK & CENTRIC ARCHITECTURE</p>", unsafe_allow_html=True)
+
+```
