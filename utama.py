@@ -10,7 +10,7 @@ st.set_page_config(
     page_title="The Vault | Premium Sneakers", layout="wide", initial_sidebar_state="collapsed"
 )
 
-# Kustomisasi CSS Tingkat Lanjut untuk Estetika Butik Mewah
+# Kustomisasi CSS Tingkat Lanjut untuk Estetika Butik Mewah & Tinggi Seragam
 st.markdown(
     """
     <style>
@@ -43,23 +43,44 @@ st.markdown(
         margin-bottom: 30px;
     }
     
-    /* Sentralisasi Grid Produk & Efek Kartu Minimalis */
-    div[data-testid="stVVerticalBlock"] > div {
-        text-align: center;
-    }
-    
+    /* Efek Kartu Minimalis: Dipaksa Rata Tengah & Tinggi Dikunci (Seragam) */
     .stCard {
         background-color: rgba(255, 255, 255, 0.85);
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-        border-radius: 12px !important;
-        padding: 25px !important;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        padding: 25px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-        transition: all 0.4s ease-in-out;
+        
+        /* Flexbox magic untuk meratakan konten ke tengah secara vertikal & horizontal */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        
+        /* Mengunci tinggi kotak agar semua katalog seragam */
+        height: 620px;
+        justify-content: space-between; /* Menjaga tombol tetap di paling bawah kotak */
     }
     
-    /* Tombol Blackout Sleek */
+    /* Memastikan gambar produk proporsional di dalam kotak */
+    .stCard img {
+        max-height: 220px;
+        object-fit: contain;
+        margin-bottom: 15px;
+    }
+
+    .card-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    
+    /* Tombol Blackout Sleek Centered */
     .stButton>button {
-        width: 80% !important;
+        width: 90% !important;
         margin: 0 auto !important;
         display: block !important;
         border-radius: 4px !important;
@@ -69,7 +90,7 @@ st.markdown(
         font-weight: 500 !important;
         letter-spacing: 2px !important;
         border: 1px solid #000000 !important;
-        padding: 10px 0px !important;
+        padding: 12px 0px !important;
         transition: all 0.3s ease !important;
     }
     .stButton>button:hover {
@@ -260,35 +281,34 @@ try:
         df_brands = df["brand"].unique()
 
         for brand in df_brands:
-            # Memusatkan Nama Brand Edition
-            st.markdown(f"<h3 style='text-align: center; letter-spacing: 4px; color:#222;'>— {brand.upper()} EDITION —</h3>", unsafe_allow_html=True)
-            st.write("")
+            st.markdown(f"<h3 style='text-align: center; letter-spacing: 4px; color:#222; margin-bottom: 25px;'>— {brand.upper()} EDITION —</h3>", unsafe_allow_html=True)
             
             data_per_brand = df[df["brand"] == brand].reset_index(drop=True)
             cols = st.columns(3)
 
             for idx, row in data_per_brand.iterrows():
                 with cols[idx % 3]:
-                    # Memasukkan konten ke dalam container custom styled
-                    with st.container(border=False):
-                        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-                        
-                        if os.path.exists(str(row["foto"])):
-                            st.image(row["foto"], use_container_width=True)
-                        else:
-                            st.warning(t["foto_missing"].format(row['foto']))
-
-                        # Semua teks dipaksa rata tengah secara simetris
-                        st.markdown(f"<h4 style='margin-top:15px; font-weight:400;'>{row['nama']}</h4>", unsafe_allow_html=True)
-                        st.markdown(f"<h3 style='color:#111; margin-bottom:5px;'><b>Rp {row['harga']:,}</b></h3>", unsafe_allow_html=True)
-                        
-                        desc = row["deskripsi_id"] if bahasa == "Indonesia" else row["deskripsi_en"]
-                        st.markdown(f"<p style='color:#666; font-size:0.9rem; min-height:80px; padding:0 10px;'>{desc}</p>", unsafe_allow_html=True)
-                        
-                        if st.button(t["order_btn"], key=f"btn_{brand}_{idx}"):
-                            order_dialog(row)
-                            
-                        st.markdown('</div>', unsafe_allow_html=True)
+                    # Implementasi murni HTML Div untuk menjamin presisi susunan teks tengah & tinggi seragam
+                    foto_render = f'<img src="{row["foto"]}" style="width:100%;">' if os.path.exists(str(row["foto"])) else f'<p style="color:red;">{t["foto_missing"].format(row["foto"])}</p>'
+                    desc = row["deskripsi_id"] if bahasa == "Indonesia" else row["deskripsi_en"]
+                    
+                    st.markdown(
+                        f"""
+                        <div class="stCard">
+                            {foto_render}
+                            <div class="card-content">
+                                <h4 style="margin: 10px 0; font-weight:400; font-size:1.25rem;">{row['nama']}</h4>
+                                <h3 style="color:#111; margin: 5px 0 15px 0;"><b>Rp {row['harga']:,}</b></h3>
+                                <p style="color:#666; font-size:0.9rem; line-height:1.4; padding:0 10px; margin-bottom:20px;">{desc}</p>
+                            </div>
+                        </div>
+                        """, 
+                        unsafe_allow_html=True
+                    )
+                    
+                    # Meletakkan tombol Streamlit tepat di bawah komponen HTML agar fungsi trigger pop-up tetap aktif
+                    if st.button(t["order_btn"], key=f"btn_{brand}_{idx}"):
+                        order_dialog(row)
 
             st.write("")
             st.write("")
